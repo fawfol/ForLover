@@ -1,23 +1,40 @@
-// App.js
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import WelcomeScreen from './src/screens/WelcomeScreen';
-import HomeScreen from './src/screens/HomeScreen';
-import ChatScreen from './src/screens/ChatScreen';
-import CallScreen from './src/screens/CallScreen';
+import WelcomeJA from './src/screens/ja/WelcomeScreen';
+import WelcomeEN from './src/screens/en/WelcomeScreen';
+import HomeJA from './src/screens/ja/HomeScreen';
+import HomeEN from './src/screens/en/HomeScreen';
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+function MainTabsJA() {
+  return (
+    <Tab.Navigator screenOptions={{ headerShown: false }}>
+      <Tab.Screen name="HomeJA" component={HomeJA} />
+    </Tab.Navigator>
+  );
+}
+
+function MainTabsEN() {
+  return (
+    <Tab.Navigator screenOptions={{ headerShown: false }}>
+      <Tab.Screen name="HomeEN" component={HomeEN} />
+    </Tab.Navigator>
+  );
+}
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Welcome" screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Welcome" component={WelcomeScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Chat" component={ChatScreen} />
-        <Stack.Screen name="Call" component={CallScreen} />
+      <Stack.Navigator initialRouteName="WelcomeJA" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="WelcomeJA" component={WelcomeJA} />
+        <Stack.Screen name="WelcomeEN" component={WelcomeEN} />
+        <Stack.Screen name="MainJA" component={MainTabsJA} />
+        <Stack.Screen name="MainEN" component={MainTabsEN} />
       </Stack.Navigator>
     </NavigationContainer>
   );
