@@ -1,33 +1,68 @@
 // src/screens/en/WelcomeScreen.js
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-export default function WelcomeScreenEN({ navigation }) {
+export default function WelcomeEN({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>💖 ForLover 💖</Text>
-      <Text style={styles.subtitle}>Built For Two Souls And One Love.</Text>
+      <Text style={styles.title}>💖 FOR LOVER 💖</Text>
+      <Text style={styles.subtitle}>Built For Two Souls And One Love</Text>
 
       <View style={styles.buttonContainer}>
-        <Button
-          title="Start"
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: '#00a86b' }]}
           onPress={() => navigation.replace('MainEN')}
-          color="#00a86b"
-        />
-        <View style={{ marginTop: 20 }}>
-          <Button
-            title="日本語"
-            onPress={() => navigation.replace('WelcomeJA')}
-            color="#aa336a"
-          />
-        </View>
+        >
+          <Text style={styles.buttonText}>START</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: '#aa336a', marginTop: 20 }]}
+          onPress={() => navigation.replace('WelcomeJA')}
+        >
+          <Text style={styles.buttonText}>日本語</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 },
-  title: { fontSize: 36, fontWeight: 'bold', color: '#aa336a', marginBottom: 10 },
-  subtitle: { fontSize: 16, fontStyle: 'italic', textAlign: 'center', marginBottom: 30 },
+  container: {
+    flex: 1,
+    backgroundColor: '#ECC5C0',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  title: {
+    fontSize: 37,
+    fontWeight: 'bold',
+    color: '#aa336a',
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontSize: 22,
+    fontStyle: 'italic',
+    textAlign: 'center',
+    marginBottom: 30,
+    color: '#333',
+  },
+  buttonContainer: {
+    marginTop: 40,
+    width: '70%',
+    alignItems: 'center',
+  },
+  button: {
+    width: '100%',
+    paddingVertical: 14,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 25,
+    fontWeight: 'bold',
+    letterSpacing: 1,
+  },
 });
