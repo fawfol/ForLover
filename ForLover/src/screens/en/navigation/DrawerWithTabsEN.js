@@ -80,7 +80,8 @@ export default function DrawerWithTabsEN({ route }) {
           headerRight: () => (
             <Ionicons
               name="menu"
-              size={24}
+              size={35}
+              paddingTop ={5}
               color={theme.colors.primary}
               style={{ marginRight: 15 }}
               onPress={() => navigation.openDrawer()}
