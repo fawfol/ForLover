@@ -86,7 +86,8 @@ export default function DrawerWithTabsEN({ route }) {
           headerRight: () => (
             <Ionicons
               name="menu"
-              size={24}
+              size={35}
+              paddingTop ={10}
               color={theme.colors.primary}
               style={{ marginRight: 15 }}
               onPress={() => navigation.openDrawer()}
@@ -96,16 +97,18 @@ export default function DrawerWithTabsEN({ route }) {
       }}
     >
       <Drawer.Screen
-        name="Tabs"
-        component={TabsJA}
-        options={{
-          title: '',
-          drawerItemStyle: { display: 'none' },
-          drawerIcon: ({ color, size }) => (
-            <Ionicons name="apps" size={size} color={color} />
-          ),
-        }}
-      />
+              name="Tabs"
+              options={{
+                title: '',
+                drawerItemStyle: { display: 'none' },
+                drawerIcon: ({ color, size }) => (
+                  <Ionicons name="apps" size={size} color={color} />
+                ),
+              }}
+            >
+             {(props) => <TabsJA {...props} username={username} />}
+            </Drawer.Screen>
+
       <Drawer.Screen
         name="アカウント"
         component={AccountScreenJA}
