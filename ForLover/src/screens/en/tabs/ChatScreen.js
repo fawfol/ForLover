@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, TextInput, Button, FlatList, Text, StyleSheet } from 'react-native';
 import io from 'socket.io-client';
 
-// Change this to your local IP if using a real device
-const socket = io("http://192.168.11.29:3000"); 
+const socket = io("http://localip:3000"); 
 
 export default function ChatScreen({username}) {
   const [message, setMessage] = useState('');
