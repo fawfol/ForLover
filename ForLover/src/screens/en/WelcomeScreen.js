@@ -1,3 +1,4 @@
+// src/screens/en/WelcomeScreen.js
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native'; // Import Alert
 
@@ -25,8 +26,8 @@ export default function WelcomeEN({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>💖 FOR LOVER 💖</Text>
-      <Text style={styles.subtitle}>Built For Two Souls And One Love</Text>
+      <Text style={styles.title}>{'DUOGRAM'}</Text>
+      <Text style={styles.subtitle}>{'Share Moments Together'}</Text>
 
       {/* Username Input */}
       <TextInput
@@ -51,7 +52,7 @@ export default function WelcomeEN({ navigation }) {
           style={[styles.button, { backgroundColor: '#aa336a', marginTop: 20 }]}
           onPress={() => navigation.replace('WelcomeJA')}
         >
-          <Text style={styles.buttonText}>日本語</Text>
+          <Text style={styles.buttonText}>{'日本語'}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -73,24 +74,25 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   subtitle: {
-    fontSize: 20,
-    fontStyle: 'italic',
+    fontSize: 29,
+    width : 400,
     textAlign: 'center',
     marginBottom: 30,
-    color: '#333',
+    color: '#6666E0',
+    fontWeight : '800'
   },
-  // Updated input style
+  
   input: {
-    width: '70%', // Matches button width
+    width: '70%', 
     paddingVertical: 10,
     fontSize: 18,
     color: '#333',
-    backgroundColor: 'white', // White background
-    borderBottomWidth: 2, // Pink bottom border
+    backgroundColor: 'white', 
+    borderBottomWidth: 2, 
     borderBottomColor: '#FF69B4',
-    marginBottom: 20, // Space below the input
-    borderRadius: 5, // Slight rounding for the input field
-    paddingHorizontal: 10, // Horizontal padding for text
+    marginBottom: 20,
+    borderRadius: 5, //
+    paddingHorizontal: 10,  
   },
   buttonContainer: {
     marginTop: 20,
