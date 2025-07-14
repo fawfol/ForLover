@@ -164,6 +164,7 @@ const styles = StyleSheet.create({
   chatBubble: {
     borderRadius: 15,
     padding: 10,
+    marginBottom : 5,
     marginVertical: 0,
     maxWidth: '80%',
   },
