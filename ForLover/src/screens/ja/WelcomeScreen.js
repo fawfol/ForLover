@@ -1,3 +1,4 @@
+// src/screens/ja/WelcomeScreen.js
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native';
 
@@ -25,8 +26,8 @@ export default function WelcomeJA({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>💖 フォー・ラバー 💖</Text>
-      <Text style={styles.subtitle}>ふたりの魂とひとつの愛のために</Text>
+      <Text style={styles.title}>{'デュオグラム'}</Text>
+      <Text style={styles.subtitle}>{'一緒に思い出を分かち合おう'}</Text>
 
       {/* Username Input */}
       <TextInput
@@ -51,7 +52,7 @@ export default function WelcomeJA({ navigation }) {
           style={[styles.button, { backgroundColor: '#aa336a', marginTop: 20 }]}
           onPress={() => navigation.replace('WelcomeEN')}
         >
-          <Text style={styles.buttonText}>English</Text>
+          <Text style={styles.buttonText}>{'English'}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -73,11 +74,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   subtitle: {
-    fontSize: 20,
-    fontStyle: 'italic',
+    fontSize: 26,
+    width : 400,
     textAlign: 'center',
     marginBottom: 30,
-    color: '#333',
+    color: '#6666E0',
+    fontWeight : '800'
   },
   input: {
     width: '70%', // Matches button width
