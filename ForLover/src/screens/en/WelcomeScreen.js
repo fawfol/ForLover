@@ -1,27 +1,32 @@
 // src/screens/en/WelcomeScreen.js
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native'; // Import Alert
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native';
+import auth from '@react-native-firebase/auth'; 
 
 export default function WelcomeEN({ navigation }) {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleStart = () => {
-    // Validate username length
-    if (username.trim().length < 4) {
-      Alert.alert('Error', 'Please enter your name with at least 4 characters.');
-      return;
-    }
-    if (username.trim().length > 15) {
-      Alert.alert('Error', 'Please enter your name within 20 characters.');
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert('Error', 'Please enter both email and password.');
       return;
     }
 
-    if (!username.trim()) {
-      Alert.alert('Error', 'Please enter your name.'); 
-      return;
+    try {
+      const userCredential = await auth().signInWithEmailAndPassword(email.trim(), password);
+      const username = userCredential.user.displayName || userCredential.user.email;
+      navigation.replace('MainEN', { username });
+    } catch (error) {
+      console.log(error);
+      if (error.code === 'auth/user-not-found') {
+        Alert.alert('Login Failed', 'No user found for this email.');
+      } else if (error.code === 'auth/wrong-password') {
+        Alert.alert('Login Failed', 'Incorrect password.');
+      } else {
+        Alert.alert('Login Failed', error.message);
+      }
     }
-
-    navigation.replace('MainEN', { username });
   };
 
   return (
@@ -29,23 +34,32 @@ export default function WelcomeEN({ navigation }) {
       <Text style={styles.title}>{'DUOGRAM'}</Text>
       <Text style={styles.subtitle}>{'Share Moments Together'}</Text>
 
-      {/* Username Input */}
       <TextInput
-        value={username}
-        onChangeText={setUsername}
-        placeholder="ENTER YOUR NAME"
+        value={email}
+        onChangeText={setEmail}
+        placeholder="Enter Email"
         textAlign="center"
         placeholderTextColor="#999"
         style={styles.input}
-        maxLength={20}
+        keyboardType="email-address"
+        autoCapitalize="none"
+      />
+      <TextInput
+        value={password}
+        onChangeText={setPassword}
+        placeholder="Enter Password"
+        textAlign="center"
+        placeholderTextColor="#999"
+        style={styles.input}
+        secureTextEntry
       />
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={[styles.button, { backgroundColor: '#00a86b' }]}
-          onPress={handleStart}
+          onPress={handleLogin}
         >
-          <Text style={styles.buttonText}>START</Text>
+          <Text style={styles.buttonText}>LOGIN</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -75,24 +89,23 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 29,
-    width : 400,
+    width: 400,
     textAlign: 'center',
     marginBottom: 30,
     color: '#6666E0',
-    fontWeight : '800'
+    fontWeight: '800',
   },
-  
   input: {
-    width: '70%', 
+    width: '70%',
     paddingVertical: 10,
     fontSize: 18,
     color: '#333',
-    backgroundColor: 'white', 
-    borderBottomWidth: 2, 
+    backgroundColor: 'white',
+    borderBottomWidth: 2,
     borderBottomColor: '#FF69B4',
     marginBottom: 20,
-    borderRadius: 5, //
-    paddingHorizontal: 10,  
+    borderRadius: 5,
+    paddingHorizontal: 10,
   },
   buttonContainer: {
     marginTop: 20,
