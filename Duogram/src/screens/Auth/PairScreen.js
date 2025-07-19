@@ -86,9 +86,23 @@ export default function PairScreen({ navigation }) {
       <TouchableOpacity style={styles.button} onPress={handleJoin}>
         <Text style={styles.buttonText}>Connect</Text>
       </TouchableOpacity>
+            <TouchableOpacity
+        style={[styles.button, styles.secondaryButton]}
+        onPress={() => navigation.replace('Login')}
+      >
+        <Text style={styles.buttonText}>Go Back to Login</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.button, styles.continueButton]}
+        onPress={() => navigation.replace('Main')}
+      >
+        <Text style={styles.buttonText}>Continue Without Pairing</Text>
+      </TouchableOpacity>
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', padding: 24, backgroundColor: '#fff' },
@@ -96,5 +110,7 @@ const styles = StyleSheet.create({
   button: { backgroundColor: '#007AFF', padding: 16, borderRadius: 8, marginBottom: 16, alignItems: 'center' },
   buttonText: { color: '#fff', fontSize: 16 },
   myCodeText: { fontSize: 22, color: '#007AFF', fontWeight: 'bold', textAlign: 'center', marginVertical: 8 },
-  input: { borderWidth: 1, borderColor: '#aaa', borderRadius: 8, padding: 12, marginBottom: 16 }
+  input: { borderWidth: 1, borderColor: '#aaa', borderRadius: 8, padding: 12, marginBottom: 16 },
+  secondaryButton: { backgroundColor: '#aaa' },
+  continueButton: { backgroundColor: '#28a745'},
 });

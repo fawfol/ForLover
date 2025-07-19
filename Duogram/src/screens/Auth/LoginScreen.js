@@ -2,13 +2,35 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { auth } from '../../firebase';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const db = getFirestore();
 
-  // Handle login
+  //check if user is paired (has pairCode in Firestore)
+  const checkPairStatus = async (user) => {
+    try {
+      const userDocSnap = await getDoc(doc(db, "users", user.uid));
+      if (userDocSnap.exists()) {
+        const data = userDocSnap.data();
+        if (data.pairCode) {
+          navigation.reset({ index: 0, routes: [{ name: 'Main' }] }); 
+        } else {
+          navigation.reset({ index: 0, routes: [{ name: 'Pair' }] }); //go to Pair if not paired
+        }
+      } else {
+        navigation.reset({ index: 0, routes: [{ name: 'Pair' }] }); //fallback if no user doc
+      }
+    } catch (err) {
+      Alert.alert("Error", "Unable to check pair status. " + err.message);
+    }
+  };
+
+
+  //handle login
   const handleLogin = async () => {
     if (!email || !password) {
       Alert.alert('Missing fields', 'Enter email and password');
@@ -16,7 +38,8 @@ export default function LoginScreen({ navigation }) {
     }
     try {
       await signInWithEmailAndPassword(auth, email.trim(), password);
-      navigation.replace('Pair');
+      const user = auth.currentUser;
+      await checkPairStatus(user);
     } catch (err) {
       if (err.code === 'auth/user-not-found') {
         Alert.alert('Login Failed', "User does not exist. Please sign up first.");
@@ -28,7 +51,7 @@ export default function LoginScreen({ navigation }) {
     }
   };
 
-  // Handle signup
+  //handle signup
   const handleSignUp = async () => {
     if (!email || !password) {
       Alert.alert('Missing fields', 'Enter email and password to sign up.');
@@ -36,7 +59,8 @@ export default function LoginScreen({ navigation }) {
     }
     try {
       await createUserWithEmailAndPassword(auth, email.trim(), password);
-      navigation.replace('Pair');
+      const user = auth.currentUser;
+      await checkPairStatus(user);
       Alert.alert('Sign Up Success', 'Account created and logged in!');
     } catch (err) {
       if (err.code === 'auth/email-already-in-use') {
