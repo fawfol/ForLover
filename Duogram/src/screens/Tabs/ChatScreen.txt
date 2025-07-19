@@ -16,7 +16,7 @@ export default function ChatScreen() {
   const user = auth.currentUser;
   const flatListRef = useRef(null);
 
-  //load the user's pair code from Firestore (only once)
+  // Load the user's pair code from Firestore (only once)
   useEffect(() => {
     let mounted = true;
     async function getPairCode() {
@@ -29,7 +29,7 @@ export default function ChatScreen() {
     return () => { mounted = false };
   }, [user]);
 
-  //real-time listener on messages for this pair
+  // Real-time listener on messages for this pair
   useEffect(() => {
     if (!pairCode) return;
     setLoading(true);
@@ -41,13 +41,13 @@ export default function ChatScreen() {
       }));
       setMessages(msgs);
       setLoading(false);
-      //scroll to bottom on new message
+      // Scroll to bottom on new message
       setTimeout(() => flatListRef.current?.scrollToEnd({ animated: true }), 100);
     });
     return unsubscribe;
   }, [pairCode]);
 
-  //send new message
+  // Send new message
   const sendMessage = async () => {
     if (!input.trim() || !pairCode || !user?.uid) return;
     await addDoc(collection(db, 'pairs', pairCode, 'messages'), {
@@ -58,7 +58,7 @@ export default function ChatScreen() {
     setInput('');
   };
 
-  //render each message bubble
+  // Render each message bubble
   const renderItem = ({ item }) => {
     const isMine = item.sender === user.uid;
     let timeString = '';
@@ -81,29 +81,23 @@ export default function ChatScreen() {
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 180: 130}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}
     >
       <View style={{ flex: 1 }}>
         {loading ? (
-  <ActivityIndicator style={{ flex: 1, alignSelf: 'center', marginTop: 40 }} size="large" color="#007AFF" />
-) : messages.length === 0 ? (
-  <View style={styles.emptyState}>
-    <Text style={styles.emptyTitle}>No messages yet</Text>
-    <Text style={styles.emptyText}>Say hi 👋 and start the conversation!</Text>
-  </View>
-) : (
-  <FlatList
-    ref={flatListRef}
-    data={messages}
-    renderItem={renderItem}
-    keyExtractor={item => item.id}
-    style={{ flex: 1, padding: 16 }}
-    contentContainerStyle={{ paddingBottom: 10 }}
-    onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: true })}
-    keyboardShouldPersistTaps="handled"
-  />
-)}
-
+          <ActivityIndicator style={{ flex: 1, alignSelf: 'center', marginTop: 40 }} size="large" color="#007AFF" />
+        ) : (
+          <FlatList
+            ref={flatListRef}
+            data={messages}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+            style={{ flex: 1, padding: 16 }}
+            contentContainerStyle={{ paddingBottom: 10 }}
+            onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: true })}
+            keyboardShouldPersistTaps="handled"
+          />
+        )}
         <View style={styles.inputBar}>
           <TextInput
             style={styles.input}
@@ -146,6 +140,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   input: { flex: 1, height: 40, borderColor: '#aaa', borderWidth: 1, borderRadius: 20, paddingHorizontal: 12 },
-  sendBtn: { marginLeft: 8, backgroundColor: '#007AFF', paddingVertical: 10, paddingHorizontal: 16, borderRadius: 20, opacity: 1 },
+  sendBtn: { marginLeft: 8, backgroundColor: '#007AFF', paddingVertical: 8, paddingHorizontal: 16, borderRadius: 20, opacity: 1 },
   sendText: { color: '#fff', fontWeight: 'bold' }
 });
